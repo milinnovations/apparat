@@ -20,17 +20,20 @@
  */
 package apparat.actors
 
-import scala.actors.{Futures => SFutures}
+import scala.concurrent.{Future => SFuture}
+import scala.concurrent.Await
+import scala.concurrent.duration.Duration
+import scala.concurrent.ExecutionContext.Implicits.global
 
 object Futures {
 	private val enabled = Actor.threadsEnabled
 
 	def future[T](body: => T): () => T = {
 		if(enabled) {
-			SFutures.future(body)
+			() => Await.result(SFuture(body), Duration.Inf)
 		} else {
 			val result: T = body
-			() => { result }
+			() => result
 		}
 	}
 }

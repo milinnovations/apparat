@@ -52,15 +52,17 @@
                   <type>swc</type>
                   <outputDirectory>${project.build.outputDirectory}</outputDirectory>
                   <destFileName>apparat-ersatz.swc</destFileName>
-                </artifactItem>
+              </artifactItem>
+              <!--
                 <artifactItem>
-                  <groupId>org.lwjgl</groupId>
-                  <artifactId>lwjgl-native</artifactId>
+                  <groupId>org.lwjgl.lwjgl</groupId>
+                  <artifactId>lwjgl-platform</artifactId>
                   <version>${lwjgl.version}</version>
                   <type>jar</type>
                   <outputDirectory>${project.build.directory}/libs/natives</outputDirectory>
                   <overWrite>true</overWrite>
                 </artifactItem>
+              -->
               </artifactItems>
             </configuration>
           </execution>
@@ -101,21 +103,21 @@
       <artifactId>scala-library</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.scala-tools.testing</groupId>
-      <artifactId>specs_${scala.version}</artifactId>
+      <groupId>org.specs2</groupId>
+      <artifactId>specs2_${scala.minor.version}</artifactId>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.lwjgl</groupId>
+      <groupId>org.lwjgl.lwjgl</groupId>
       <artifactId>lwjgl</artifactId>
       <version>${lwjgl.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.lwjgl</groupId>
-      <artifactId>lwjgl-util</artifactId>
+      <groupId>org.lwjgl.lwjgl</groupId>
+      <artifactId>lwjgl_util</artifactId>
       <version>${lwjgl.version}</version>
     </dependency>
   </dependencies>

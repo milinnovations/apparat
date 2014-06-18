@@ -117,9 +117,9 @@ class MemoryHelperExpansion(abcs: List[Abc]) extends SimpleLog {
 
 	def validateAndUpdateInfo() = {
 		for(nominal <- structures.valuesIterator) {
-			if(nominal.inst.traits.length == 0) error(nominal.name + " have no field member.")
-			if(nominal.klass.traits.length != 0) error(nominal.name + " must not have methods.")
-			if(!nominal.inst.isSealed) error(nominal.name + " must not be a dynamic class.")
+			if(nominal.inst.traits.length == 0) error(nominal.name.toString + " have no field member.")
+			if(nominal.klass.traits.length != 0) error(nominal.name.toString + " must not have methods.")
+			if(!nominal.inst.isSealed) error(nominal.name.toString + " must not be a dynamic class.")
 
 			implicit def any2int(x: Any): Int = {
 				x match {
@@ -146,9 +146,9 @@ class MemoryHelperExpansion(abcs: List[Abc]) extends SimpleLog {
 						case ANumber => 'double
 						case AnInt => qname.name
 						case AnUint => qname.name
-						case _ => error(qname + " must be Number, int, or uint")
+						case _ => error(qname.toString + " must be Number, int, or uint")
 					}
-					case _ => error(name + " must of type AbcQName")
+					case _ => error(name.toString + " must of type AbcQName")
 				}
 			}
 
@@ -165,7 +165,7 @@ class MemoryHelperExpansion(abcs: List[Abc]) extends SimpleLog {
 							case _ => getType(aSlot.typeName)
 						}
 					}
-					case _ => error(t + " have to be of type AbcTraitSlot")
+					case _ => error(t.toString + " have to be of type AbcTraitSlot")
 				}
 			}
 

@@ -45,7 +45,7 @@ final class GraphVerticesSorter[V](graph: GraphLike[V]) {
 
 	lazy val vertices = getVertices(entry, graph.verticesIterator.toList).filterNot(p => p == entry || p == exit)
 
-	private lazy val globalCatchQName = AbcQName(Symbol(null), AbcNamespace(0, Symbol(null)))
+	private lazy val globalCatchQName = AbcQName(Symbol(""), AbcNamespace(0, Symbol("")))
 
 	private def isGlobalCatch(v: V) = v match {
 		case iaobv: ImmutableAbstractOpBlockVertex => {

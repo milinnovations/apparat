@@ -115,16 +115,16 @@ class MacroExpansion(abcs: List[Abc]) extends SimpleLog {
 
 							method.body match {
 								case Some(body) => body.bytecode match {
-									case Some(macro) => {
+									case Some(matchedMacro) => {
 										parameters = parameters.reverse
 
 										var byRefReplacementsMap = Map.empty[AbstractOp, List[AbstractOp]]
 
 										val parameterCount = method.parameters.length
 										val newLocals = body.localCount - parameterCount - 1
-										val oldDebugFile = macro.ops.find (_.opCode == Op.debugfile)
-										val delta = -macro.ops.indexWhere(_.opCode == Op.pushscope) - 1
-										val ops = macro.ops.view(macro.ops.indexWhere(_.opCode == Op.pushscope) + 1, macro.ops.length - 1)
+										val oldDebugFile = matchedMacro.ops.find (_.opCode == Op.debugfile)
+										val delta = -matchedMacro.ops.indexWhere(_.opCode == Op.pushscope) - 1
+										val ops = matchedMacro.ops.view(matchedMacro.ops.indexWhere(_.opCode == Op.pushscope) + 1, matchedMacro.ops.length - 1)
 										var replacement = (ops.zipWithIndex.map{p => p._1 match {
 											//
 											// Shift all local variables that are not parameters.
@@ -294,83 +294,83 @@ class MacroExpansion(abcs: List[Abc]) extends SimpleLog {
 											// Patch all markers.
 											//
 											case branch:Jump => {
-												val newOp = Jump(markers mark replacement((macro.ops indexOf branch.marker.op.get) + delta))
+												val newOp = Jump(markers mark replacement((matchedMacro.ops indexOf branch.marker.op.get) + delta))
 												markers.forwardMarker(branch, newOp)
 												newOp
 											}
 											case branch:IfEqual => {
-												val newOp = IfEqual(markers mark replacement((macro.ops indexOf branch.marker.op.get) + delta))
+												val newOp = IfEqual(markers mark replacement((matchedMacro.ops indexOf branch.marker.op.get) + delta))
 												markers.forwardMarker(branch, newOp)
 												newOp
 											}
 											case branch:IfTrue => {
-												val newOp = IfTrue(markers mark replacement((macro.ops indexOf branch.marker.op.get) + delta))
+												val newOp = IfTrue(markers mark replacement((matchedMacro.ops indexOf branch.marker.op.get) + delta))
 												markers.forwardMarker(branch, newOp)
 												newOp
 											}
 											case branch:IfFalse => {
-												val newOp = IfFalse(markers mark replacement((macro.ops indexOf branch.marker.op.get) + delta))
+												val newOp = IfFalse(markers mark replacement((matchedMacro.ops indexOf branch.marker.op.get) + delta))
 												markers.forwardMarker(branch, newOp)
 												newOp
 											}
 											case branch:IfGreaterEqual =>  {
-												val newOp = IfGreaterEqual(markers mark replacement((macro.ops indexOf branch.marker.op.get) + delta))
+												val newOp = IfGreaterEqual(markers mark replacement((matchedMacro.ops indexOf branch.marker.op.get) + delta))
 												markers.forwardMarker(branch, newOp)
 												newOp
 											}
 											case branch:IfGreaterThan =>  {
-												val newOp = IfGreaterThan(markers mark replacement((macro.ops indexOf branch.marker.op.get) + delta))
+												val newOp = IfGreaterThan(markers mark replacement((matchedMacro.ops indexOf branch.marker.op.get) + delta))
 												markers.forwardMarker(branch, newOp)
 												newOp
 											}
 											case branch:IfLessEqual =>  {
-												val newOp = IfLessEqual(markers mark replacement((macro.ops indexOf branch.marker.op.get) + delta))
+												val newOp = IfLessEqual(markers mark replacement((matchedMacro.ops indexOf branch.marker.op.get) + delta))
 												markers.forwardMarker(branch, newOp)
 												newOp
 											}
 											case branch:IfLessThan =>  {
-												val newOp = IfLessThan(markers mark replacement((macro.ops indexOf branch.marker.op.get) + delta))
+												val newOp = IfLessThan(markers mark replacement((matchedMacro.ops indexOf branch.marker.op.get) + delta))
 												markers.forwardMarker(branch, newOp)
 												newOp
 											}
 											case branch:IfNotGreaterEqual =>  {
-												val newOp = IfNotGreaterEqual(markers mark replacement((macro.ops indexOf branch.marker.op.get) + delta))
+												val newOp = IfNotGreaterEqual(markers mark replacement((matchedMacro.ops indexOf branch.marker.op.get) + delta))
 												markers.forwardMarker(branch, newOp)
 												newOp
 											}
 											case branch:IfNotGreaterThan =>  {
-												val newOp = IfNotGreaterThan(markers mark replacement((macro.ops indexOf branch.marker.op.get) + delta))
+												val newOp = IfNotGreaterThan(markers mark replacement((matchedMacro.ops indexOf branch.marker.op.get) + delta))
 												markers.forwardMarker(branch, newOp)
 												newOp
 											}
 											case branch:IfNotLessEqual =>  {
-												val newOp = IfNotLessEqual(markers mark replacement((macro.ops indexOf branch.marker.op.get) + delta))
+												val newOp = IfNotLessEqual(markers mark replacement((matchedMacro.ops indexOf branch.marker.op.get) + delta))
 												markers.forwardMarker(branch, newOp)
 												newOp
 											}
 											case branch:IfNotLessThan =>  {
-												val newOp = IfNotLessThan(markers mark replacement((macro.ops indexOf branch.marker.op.get) + delta))
+												val newOp = IfNotLessThan(markers mark replacement((matchedMacro.ops indexOf branch.marker.op.get) + delta))
 												markers.forwardMarker(branch, newOp)
 												newOp
 											}
 											case branch:IfNotEqual =>  {
-												val newOp = IfNotEqual(markers mark replacement((macro.ops indexOf branch.marker.op.get) + delta))
+												val newOp = IfNotEqual(markers mark replacement((matchedMacro.ops indexOf branch.marker.op.get) + delta))
 												markers.forwardMarker(branch, newOp)
 												newOp
 											}
 											case branch:IfStrictEqual =>  {
-												val newOp = IfStrictEqual(markers mark replacement((macro.ops indexOf branch.marker.op.get) + delta))
+												val newOp = IfStrictEqual(markers mark replacement((matchedMacro.ops indexOf branch.marker.op.get) + delta))
 												markers.forwardMarker(branch, newOp)
 												newOp
 											}
 											case branch:IfStrictNotEqual =>  {
-												val newOp = IfStrictNotEqual(markers mark replacement((macro.ops indexOf branch.marker.op.get) + delta))
+												val newOp = IfStrictNotEqual(markers mark replacement((matchedMacro.ops indexOf branch.marker.op.get) + delta))
 												markers.forwardMarker(branch, newOp)
 												newOp
 											}
 											case lookup:LookupSwitch => {
-												val newOp = LookupSwitch(markers mark replacement((macro.ops indexOf lookup.defaultCase.op.get) + delta), lookup.cases map {
-													`case` => markers mark replacement((macro.ops indexOf `case`.op.get) + delta)//the reward is cheese!
+												val newOp = LookupSwitch(markers mark replacement((matchedMacro.ops indexOf lookup.defaultCase.op.get) + delta), lookup.cases map {
+													`case` => markers mark replacement((matchedMacro.ops indexOf `case`.op.get) + delta)//the reward is cheese!
 												})
 												markers.forwardMarker(lookup, newOp)
 												newOp

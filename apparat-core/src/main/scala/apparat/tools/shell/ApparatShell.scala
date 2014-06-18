@@ -20,27 +20,26 @@
  */
 package apparat.tools.shell
 
-import scala.actors.Actor._
-import scala.actors.{Exit, Futures, Actor}
+import akka.actor.ActorDSL._
+import akka.actor.ActorSystem
+import akka.actor.Props
 
 /**
  * @author Joa Ebert
  */
 object ApparatShell {
-	private val shell = new ShellActor()
-	private val exec = actor {
-		loop {
-			receive {
-				case ExitEvent => Exit
-				case CommandEvent(command) => shell ! CommandEvent(command)
-				case () =>
-				case other => println(other)
-			}
+	private val system = ActorSystem("ApparatShell")
+	private val shell = system.actorOf(Props[ShellActor], name="shell")
+	private val exec = actor(system, "exec")(new Act {
+		become {
+			case ExitEvent => context.stop(self)
+			case CommandEvent(command) => shell ! CommandEvent(command)
+			case () =>
+			case other => println(other)
 		}
-	}
+	})
 
 	def main(args: Array[String]): Unit = {
-		shell.start()
 		println("Welcome to the Apparat!")
 		println("Type \"help\" for a list of available commands ...")
 		println("")
@@ -51,7 +50,6 @@ object ApparatShell {
 		try {
 			exec ! ExitEvent
 			shell ! ExitEvent
-			Futures.alarm(0)
 		} catch {
 			case _ =>
 		}

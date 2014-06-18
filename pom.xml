@@ -11,13 +11,14 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>${project.build.sourceEncoding}</project.reporting.outputEncoding>
-    <scala.version>2.9.2</scala.version>
+    <scala.version>2.11.1</scala.version>
+    <scala.minor.version>2.11</scala.minor.version>
     <flex.version>4.5.0.17855</flex.version>
     <flash.version>10.1</flash.version>
     <maven.version>3.0-beta-1</maven.version>
     <flexmojos.version>4.0-beta-5</flexmojos.version>
     <flexmojos.testrunner>TestRunner.swf</flexmojos.testrunner>
-    <lwjgl.version>2.7.1</lwjgl.version>
+    <lwjgl.version>2.9.1</lwjgl.version>
   </properties>
 
   <groupId>com.googlecode.apparat</groupId>
@@ -80,9 +81,14 @@
         <version>${scala.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.scala-tools.testing</groupId>
-        <artifactId>specs_${scala.version}</artifactId>
-        <version>1.6.9</version>
+        <groupId>com.typesafe.akka</groupId>
+        <artifactId>akka-actor_${scala.minor.version}</artifactId>
+        <version>2.3.3</version>
+      </dependency>
+      <dependency>
+        <groupId>org.specs2</groupId>
+        <artifactId>specs2_${scala.minor.version}</artifactId>
+        <version>2.3.12</version>
         <scope>test</scope>
       </dependency>
       <dependency>
@@ -92,13 +98,13 @@
         <scope>test</scope>
       </dependency>
       <dependency>
-        <groupId>org.lwjgl</groupId>
+        <groupId>org.lwjgl.lwjgl</groupId>
         <artifactId>lwjgl</artifactId>
         <version>${lwjgl.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.lwjgl</groupId>
-        <artifactId>lwjgl-util</artifactId>
+        <groupId>org.lwjgl.lwjgl</groupId>
+        <artifactId>lwjgl_util</artifactId>
         <version>${lwjgl.version}</version>
       </dependency>
       <dependency>
@@ -298,11 +304,11 @@
         <enabled>false</enabled>
       </snapshots>
     </repository>
-    <repository>
+    <!--<repository>
       <id>lwjgl</id>
       <name>lwjgl</name>
       <url>http://adterrasperaspera.com/lwjgl</url>
-    </repository>
+    </repository>-->
   </repositories>
 
   <pluginRepositories>

@@ -20,7 +20,7 @@
  */
 package apparat.log
 
-import org.specs.SpecificationWithJUnit
+import org.specs2.mutable.SpecificationWithJUnit
 import output.ConsoleOutput
 import apparat.log.{
 	//We have to do this since Specs comes with a logger that shadows ours.
@@ -32,6 +32,8 @@ import apparat.log.{
  * @author Joa Ebert
  */
 class LogSpec extends SpecificationWithJUnit {
+    sequential
+
 	"The Apparat log" should {
 		"not fail without initialization" in {
 			// Works when test does not throw an exception
@@ -44,7 +46,7 @@ class LogSpec extends SpecificationWithJUnit {
 			Log addOutput output
 			Log.outputs must contain(output)
 			Log removeOutput output
-			Log.outputs mustNot contain(output)
+			Log.outputs must not contain(output)
 		}
 
 		"initialize to Info level" in {
@@ -73,6 +75,8 @@ class LogSpec extends SpecificationWithJUnit {
 				Log.level = ApparatInfo
 				Log removeOutput output
 			}
+
+			true must beTrue
 		}
 
 		"provide selective filtering" in {
@@ -80,7 +84,7 @@ class LogSpec extends SpecificationWithJUnit {
 
 			val output = new LogOutput {
 				override def log(level: LogLevel, message: String) = {
-					fail(level+", "+message)
+					failure(level+", "+message)
 				}
 			}
 
@@ -90,11 +94,11 @@ class LogSpec extends SpecificationWithJUnit {
 
 				val log = Log.newLogger
 
-				log ifDebug { fail("debug") }
-				log ifInfo { fail("info") }
-				log ifWarning { fail("warning") }
-				log ifError { fail("error") }
-				log ifFatal { fail("fatal") }
+				log ifDebug { "debug" }
+				log ifInfo { "info" }
+				log ifWarning { "warning" }
+				log ifError { "error" }
+				log ifFatal { "fatal" }
 			} finally {
 				Log.level = ApparatInfo
 				Log removeOutput output

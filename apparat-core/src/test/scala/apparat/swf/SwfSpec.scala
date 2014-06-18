@@ -1,6 +1,6 @@
 package apparat.swf
 
-import org.specs.SpecificationWithJUnit
+import org.specs2.mutable.SpecificationWithJUnit
 import java.util.Date
 
 
@@ -13,6 +13,8 @@ import java.util.Date
  */
 
 class SwfSpec extends SpecificationWithJUnit {
+  sequential 
+
   "SWF file" should {
 
     var swf = Swf.fromFile("target/test-classes/myFunction.swf")
@@ -62,7 +64,7 @@ class SwfSpec extends SpecificationWithJUnit {
     }
 
     "have Metadata tag" >> {
-      var idx = swf.tags.findIndexOf(_.kind == SwfTags.Metadata)
+      var idx = swf.tags.indexWhere(_.kind == SwfTags.Metadata)
       idx must_!= -1
       val tag = swf.tags(idx).asInstanceOf[Metadata]
 
@@ -72,7 +74,7 @@ class SwfSpec extends SpecificationWithJUnit {
     }
 
     "have ScriptLimits tag" >> {
-      var idx = swf.tags.findIndexOf(_.kind == SwfTags.ScriptLimits)
+      var idx = swf.tags.indexWhere(_.kind == SwfTags.ScriptLimits)
       idx must_!= -1
       val tag = swf.tags(idx).asInstanceOf[ScriptLimits]
 
@@ -87,7 +89,7 @@ class SwfSpec extends SpecificationWithJUnit {
     }
 
     "have SetBackgroundColor tag" >> {
-      var idx = swf.tags.findIndexOf(_.kind == SwfTags.SetBackgroundColor)
+      var idx = swf.tags.indexWhere(_.kind == SwfTags.SetBackgroundColor)
       idx must_!= -1
       val tag = swf.tags(idx).asInstanceOf[SetBackgroundColor]
 
@@ -98,7 +100,7 @@ class SwfSpec extends SpecificationWithJUnit {
     }
 
     "have ProductInfo tag" >> {
-      var idx = swf.tags.findIndexOf(_.kind == SwfTags.ProductInfo)
+      var idx = swf.tags.indexWhere(_.kind == SwfTags.ProductInfo)
       idx must_!= -1
       val tag = swf.tags(idx).asInstanceOf[ProductInfo]
 
@@ -124,7 +126,7 @@ class SwfSpec extends SpecificationWithJUnit {
     }
 
     "have FrameLabel tag" >> {
-      var idx = swf.tags.findIndexOf(_.kind == SwfTags.FrameLabel)
+      var idx = swf.tags.indexWhere(_.kind == SwfTags.FrameLabel)
       idx must_!= -1
       val tag = swf.tags(idx).asInstanceOf[FrameLabel]
 
@@ -134,7 +136,7 @@ class SwfSpec extends SpecificationWithJUnit {
     }
 
     "have DoABC tag" >> {
-      var idx = swf.tags.findIndexOf(_.kind == SwfTags.DoABC)
+      var idx = swf.tags.indexWhere(_.kind == SwfTags.DoABC)
       idx must_!= -1
       val tag = swf.tags(idx).asInstanceOf[DoABC]
 
@@ -147,7 +149,7 @@ class SwfSpec extends SpecificationWithJUnit {
     }
 
     "have SymbolClass tag" >> {
-      var idx = swf.tags.findIndexOf(_.kind == SwfTags.SymbolClass)
+      var idx = swf.tags.indexWhere(_.kind == SwfTags.SymbolClass)
       idx must_!= -1
       val tag = swf.tags(idx).asInstanceOf[SymbolClass]
 
@@ -166,7 +168,7 @@ class SwfSpec extends SpecificationWithJUnit {
     }
 
     "have ShowFrame tag" >> {
-      var idx = swf.tags.findIndexOf(_.kind == SwfTags.ShowFrame)
+      var idx = swf.tags.indexWhere(_.kind == SwfTags.ShowFrame)
       idx must_!= -1
     }
 
@@ -175,13 +177,13 @@ class SwfSpec extends SpecificationWithJUnit {
     }
 
     "have no DebugID tag" >> {
-      var idx = swf.tags.findIndexOf(_.kind == SwfTags.DebugID)
+      var idx = swf.tags.indexWhere(_.kind == SwfTags.DebugID)
       idx must_== -1
     }
 
     "be compiled in debug mode in order to have DebugID tag" >> {
       swf = Swf.fromFile("target/test-classes/myFunctionInDebug.swf")
-      var idx = swf.tags.findIndexOf(_.kind == SwfTags.DebugID)
+      var idx = swf.tags.indexWhere(_.kind == SwfTags.DebugID)
       idx must_!= -1
     }
   }

@@ -1,6 +1,6 @@
 package apparat.swc
 
-import org.specs.SpecificationWithJUnit
+import org.specs2.mutable.SpecificationWithJUnit
 
 /**
  * Created by IntelliJ IDEA.

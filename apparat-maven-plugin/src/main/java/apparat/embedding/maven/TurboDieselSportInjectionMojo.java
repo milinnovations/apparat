@@ -101,7 +101,7 @@ public final class TurboDieselSportInjectionMojo extends AbstractApparatMojo {
 			@Override public boolean inlineExpansion() { return inlineExpansion; }
 			@Override public boolean fixAlchemy() { return fixAlchemy; }
 			@Override public boolean asmExpansion() { return asmExpansion; }
-			@Override public List<File> externalLibraries() { return List.empty(); }
+			@Override public List<File> externalLibraries() { return null; }
 		};
 
 		tool.configure(config);

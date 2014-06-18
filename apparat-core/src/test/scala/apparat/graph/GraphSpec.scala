@@ -1,7 +1,7 @@
 package apparat.graph
 
 
-import org.specs.SpecificationWithJUnit
+import org.specs2.mutable.SpecificationWithJUnit
 import apparat.utils.IndentingPrintWriter
 import java.io.StringWriter
 
@@ -63,6 +63,7 @@ class GraphSpec extends SpecificationWithJUnit {
 
     "throw exception when removing non existing vertex" >> {
       val g1 = g - "D" must throwAn[AssertionError]
+	  true must beTrue
     }
 
     "remove edge" >> {

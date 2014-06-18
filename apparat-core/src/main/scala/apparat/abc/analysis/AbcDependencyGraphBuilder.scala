@@ -38,7 +38,7 @@ object AbcDependencyGraphBuilder extends (List[Abc] => GraphLike[AbcNominalType]
 			map ++= types.map { `type` => `type`.inst.name -> `type` }
 		}
 
-		for((qname, vertex) <- map.elements) {
+		for((qname, vertex) <- map) {
 			vertex.inst.base match {
 				case Some(base) => map get base match {
 					case Some(baseType) => graph += DefaultEdge(baseType, vertex)

@@ -24,7 +24,7 @@ import apparat.utils.{Dumpable, IndentingPrintWriter}
 import compat.Platform
 
 object AbcConstantPool {
-	val EMPTY_STRING = Symbol(null)
+	val EMPTY_STRING = Symbol("")
 	val EMPTY_NAMESPACE = AbcNamespace(0, EMPTY_STRING)
 	val EMPTY_NSSET = AbcNSSet(Array(EMPTY_NAMESPACE))
 	val EMPTY_NAME = AbcQName(EMPTY_STRING, EMPTY_NAMESPACE)

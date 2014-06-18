@@ -122,7 +122,7 @@ class AbcUMLExport(abcs: List[Abc]) {
 	private def printPackages(implicit writer: IndentingPrintWriter) = {
 		var i = 0
 
-		for((name, types) <- packages.elements if name != null && name.name != null) {
+		for((name, types) <- packages if name != null && name.name != null) {
 			val `package` = name.name.length match {
 				case 0 => topLevel
 				case _ => name

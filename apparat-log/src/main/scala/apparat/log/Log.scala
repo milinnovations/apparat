@@ -20,7 +20,7 @@
  */
 package apparat.log
 
-import reflect.BeanProperty
+import scala.beans.BeanProperty
 
 /**
  * @author Joa Ebert

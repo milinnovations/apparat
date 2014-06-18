@@ -20,7 +20,7 @@
  */
 package flash.utils
 
-import org.specs.SpecificationWithJUnit
+import org.specs2.mutable.SpecificationWithJUnit
 
 /**
  * @author Joa Ebert
@@ -28,7 +28,7 @@ import org.specs.SpecificationWithJUnit
 class ByteArraySpec extends SpecificationWithJUnit {
 	"ByteArray" can {
 		"be created" in {
-			new ByteArray() must notBeNull
+			new ByteArray() must not beNull
 		}
 
 		"write and read one floating point value" in {
@@ -61,6 +61,7 @@ class ByteArraySpec extends SpecificationWithJUnit {
 				for(i <- 1 to N) sum += byteArray.readFloat()
 				sum mustEqual (N * (N + 1.0) / 2.0)
 			}
+			true must beTrue
 		}
 	}
 
