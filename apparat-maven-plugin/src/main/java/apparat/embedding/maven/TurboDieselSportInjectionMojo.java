@@ -25,6 +25,7 @@ import apparat.tools.tdsi.TurboDieselSportInjection;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import scala.collection.immutable.List;
+import scala.collection.immutable.List$;
 
 import java.io.File;
 
@@ -101,7 +102,7 @@ public final class TurboDieselSportInjectionMojo extends AbstractApparatMojo {
 			@Override public boolean inlineExpansion() { return inlineExpansion; }
 			@Override public boolean fixAlchemy() { return fixAlchemy; }
 			@Override public boolean asmExpansion() { return asmExpansion; }
-			@Override public List<File> externalLibraries() { return null; }
+			@Override public List<File> externalLibraries() { return List$.MODULE$.empty(); }
 		};
 
 		tool.configure(config);
