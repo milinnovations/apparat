@@ -35,7 +35,6 @@ object Swfs {
 		f.write(abc)
 
 		symbolClass.symbols = Array(0 -> documentClass)
-		symbolClass
 
 		abc :: symbolClass :: Nil
 	}

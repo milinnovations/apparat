@@ -78,7 +78,7 @@ object ApparatApplication extends SimpleLog {
 			try {
 				config parse arguments
 			} catch {
-				case t => {
+				case t:Throwable => {
 					valid = false
 					result = -1
 					log.fatal(t.getMessage)
@@ -93,7 +93,7 @@ object ApparatApplication extends SimpleLog {
 				tool.run()
 			}
 		} catch {
-			case t => {
+			case t:Throwable => {
 				t.printStackTrace()
 				log.fatal(t.getMessage)
 				log.debug(t.getStackTraceString)

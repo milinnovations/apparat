@@ -233,7 +233,7 @@ object BytecodeEncoder {
 			(buffer, exceptions)
 		}
 		finally {
-			try { output.close() } catch { case _ =>  }
+			try { output.close() } catch { case _:Throwable =>  }
 		}
 	}
 }

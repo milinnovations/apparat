@@ -84,7 +84,7 @@ class Swc {
 			zipOutput flush ()
 			zipOutput close ()
 		} finally {
-			try {zipOutput close ()} catch {case _ => {}}
+			try {zipOutput close ()} catch {case _:Throwable => {}}
 		}
 	}
 

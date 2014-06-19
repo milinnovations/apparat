@@ -28,7 +28,6 @@ trait MutableGraphLike[V] extends GraphLike[V] {
 		if (!contains(that._1)) add(that._1)
 		if (!contains(that._2)) add(that._2)
 		add(f(that._1, that._2))
-		this
 	}
 
 	def -=(that: (V, V)): Unit = {

@@ -112,7 +112,7 @@ object IO {
 				try {
 					stream.close()
 				} catch {
-					case _ => {}
+					case _:Throwable => {}
 				}
 			}
 		}

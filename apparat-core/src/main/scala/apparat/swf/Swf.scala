@@ -146,7 +146,7 @@ final class Swf extends Dumpable with SwfTagMapping {
 				try {
 					uncompressed.close()
 				} catch {
-					case _ =>
+					case _:Throwable =>
 				}
 			}
 		}
@@ -177,7 +177,7 @@ final class Swf extends Dumpable with SwfTagMapping {
 			try {
 				byteArrayOutputStream.close()
 			} catch {
-				case _ =>
+				case _:Throwable =>
 			}
 		}
 	}
@@ -215,7 +215,7 @@ final class Swf extends Dumpable with SwfTagMapping {
 				try {
 					buffer.close()
 				} catch {
-					case _ =>
+					case _:Throwable =>
 				}
 			}
 		}

@@ -51,7 +51,7 @@ object ApparatShell {
 			exec ! ExitEvent
 			shell ! ExitEvent
 		} catch {
-			case _ =>
+			case _:Throwable =>
 		}
 
 		System exit 0

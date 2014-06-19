@@ -41,7 +41,7 @@ class ManagedReader[T <: { def close(); def readLine(): String }](resource: T) {
 			try {
 				resource.close()
 			} catch {
-				case _ =>
+				case _:Throwable =>
 			}
 		}
 	}

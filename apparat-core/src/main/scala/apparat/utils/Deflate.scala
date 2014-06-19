@@ -84,7 +84,7 @@ object Deflate extends SimpleLog {
 				log ifDebug { ioException.getLocalizedMessage+"\n"+ioException.getStackTraceString }
 				compressUsingDeflater(bytes, output)
 			}
-			case other => {
+			case other:Throwable => {
 				_7z = false
 				log.warning("7z failed. Fallback to normal compression.")
 				log ifDebug { other.getLocalizedMessage+"\n"+other.getStackTraceString }
@@ -118,10 +118,10 @@ object Deflate extends SimpleLog {
 		try {
 			writeGZIP(bytes, output, byteArrayOf(fileInputStream))
 		} finally {
-			try { fileInputStream.close() } catch { case _ => {} }
-			try { gzInput.delete() } catch { case _ => {} }
-			try { gzOutput.delete() } catch { case _ => {} }
-			try { sevenZipOutput.delete() } catch { case _ => {} }
+			try { fileInputStream.close() } catch { case _:Throwable => {} }
+			try { gzInput.delete() } catch { case _:Throwable => {} }
+			try { gzOutput.delete() } catch { case _:Throwable => {} }
+			try { sevenZipOutput.delete() } catch { case _:Throwable => {} }
 		}
 	}
 

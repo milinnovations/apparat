@@ -253,7 +253,7 @@ object BytecodeDecoder {
 			new Bytecode(ops.reverse, markers solve map, exceptions, Some(body))
 		}
 		finally {
-			try { input.close() } catch { case _ => {} }
+			try { input.close() } catch { case _:Throwable => {} }
 		}
 	}
 }

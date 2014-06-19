@@ -125,7 +125,7 @@ class SwfOutputStream(val output: JOutputStream) extends JOutputStream {
 					try {
 						buffer.close()
 					} catch {
-						case _ =>
+						case _:Throwable =>
 					}
 				}
 			}
