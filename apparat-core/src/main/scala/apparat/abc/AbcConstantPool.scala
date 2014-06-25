@@ -76,7 +76,13 @@ class AbcConstantPool(
 
 	def indexOf(value: Double): Int = doubles indexOf value
 
-	def indexOf(value: Symbol): Int = strings indexOf value
+	// lastIndexOf is needed in the next line instead of indexOf because we
+	// cannot use Symbol(null) for the zeroth item in 'strings' (since Scala 2.11
+	// freaks out when trying to access the hash code of Symbol(null)). Therefore,
+	// the string pool will contain Symbol("") as the first element, but we still
+	// want to return the index of the _real_ empty string in the string pool and
+	// not our dummy element
+	def indexOf(value: Symbol): Int = strings lastIndexOf value
 
 	def indexOf(value: AbcNamespace) = namespaces indexOf value
 
