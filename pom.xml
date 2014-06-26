@@ -270,6 +270,7 @@
     <module>apparat-archetypes</module>
     <module>apparat-asm</module>
     <module>apparat-assembly</module>
+    <module>apparat-contrib</module>
     <module>apparat-core</module>
     <module>apparat-ersatz</module>
     <module>apparat-jitb</module>
