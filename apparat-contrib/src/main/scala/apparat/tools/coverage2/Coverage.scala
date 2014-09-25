@@ -93,6 +93,7 @@ object Coverage {
 		private def coverage: PartialFunction[SwfTag, Unit] = {
 			case doABC: DoABC => {
 				var abcModified = false
+				var previousLine = -1
 				val abc = Abc fromDoABC doABC
 
 				abc.loadBytecode()
@@ -112,12 +113,17 @@ object Coverage {
 								bytecode.replaceFrom(4, debugLine) {
 									x =>
 										observers foreach (_.instrument(file.name, method.name.name, x))
-										DebugLine(x) ::
-										coverageScope ::
-										PushString(file) ::
-										PushString(method.name) ::
-										pushLine(x) ::
-										coverageMethod :: Nil
+										if (previousLine != x) {
+											previousLine = x
+											DebugLine(x) ::
+											coverageScope ::
+											PushString(file) ::
+											PushString(method.name) ::
+											pushLine(x) ::
+											coverageMethod :: Nil
+										} else {
+											DebugLine(x) :: Nil
+										}
 								}
 
 								body.maxStack += 4
