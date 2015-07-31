@@ -70,6 +70,26 @@
 	  Example:
 	    coverage -i input.swf -o output.swf -s C:\path\to\as3\source
 	
+	- Coverage-ng
+	
+	  New version of the coverage tool that lets the Coverage class log not
+	  only the file and line number but also the name of the method that
+	  was hit during execution. The tool also supports logging the line
+	  numbers for all the lines that contain executable code. It works the
+	  same way as the Coverage tool, but the Coverage class that is provided
+	  at runtime must have a slightly different signature:
+	  
+	  package apparat.coverage {
+	    public final class Coverage {
+		  public static function onSample(file: String, method:String, line:int):void {
+		    trace("Touched line", line, "in", method, "method of file", file);
+		  }
+		}
+	  }
+	  
+	  Example:
+	    coverage -i input.swf -o output.swf -s C:\path\to\as3\source
+	
 	- Dump
 	
 	  This tool can be used to generate detailed information of a given file.
