@@ -37,15 +37,16 @@ object Coverage {
 
 	class CoverageTool extends ApparatTool {
 		val debugLine = partial { case DebugLine(line) => line }
-		val coverageQName = AbcQName('Coverage, AbcNamespace(22, Symbol("apparat.coverage")))
 		val coverageOnSample = AbcQName('onSample, AbcNamespace(22, Symbol("")))
-		val coverageScope = GetLex(coverageQName)
 		val coverageMethod = CallPropVoid(coverageOnSample, 3)
 
 		var input: JFile = _
 		var output: JFile = _
 		var lineDump: JFile = _
 		var sourcePath = List.empty[String]
+		var coveragePackage: String = _
+		var coverageQName: AbcQName = _
+		var coverageScope: GetLex = _
 
 		var observers = List.empty[MethodAwareCoverageObserver]
 
@@ -54,6 +55,7 @@ object Coverage {
 		override def help = """  -i [file]	Input file
   -o [file]	Output file (optional)
   -d [file]	File containing the line numbers of all the executable lines (optional)
+  -p [str]	Name of the package containing the Coverage class (optional, defaults to apparat.coverage).
   -s [dir]	Source path to instrument"""
 
 		override def configure(config: ApparatConfiguration): Unit = configure(CoverageConfigurationFactory fromConfiguration config)
@@ -63,9 +65,13 @@ object Coverage {
 			output = config.output
 			lineDump = config.lineDump
 			sourcePath = config.sourcePath
+			coveragePackage = config.coveragePackage
 		}
 
 		override def run() = {
+			coverageQName = AbcQName('Coverage, AbcNamespace(22, Symbol(coveragePackage)))
+			coverageScope = GetLex(coverageQName)
+
 			SwfTags.tagFactory = (kind: Int) => kind match {
 				case SwfTags.DoABC => Some(new DoABC)
 				case SwfTags.DoABC1 => Some(new DoABC)

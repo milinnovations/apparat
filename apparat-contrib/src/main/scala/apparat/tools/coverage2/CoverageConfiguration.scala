@@ -49,4 +49,9 @@ trait CoverageConfiguration {
 	 * the ActionScript classes that should be instrumented.
 	 */
 	def sourcePath: List[String]
+
+	/**
+	 * The name of the package that contains the Coverage class.
+	 */
+	def coveragePackage: String
 }
