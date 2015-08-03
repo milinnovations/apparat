@@ -33,11 +33,13 @@ object CoverageConfigurationFactory extends ApparatConfigurationFactory[Coverage
 		val lineDump = config("-d") map { pathname => new JFile(pathname) } getOrElse null
 		val sourcePath = config("-s") map { _ split JFile.pathSeparatorChar toList } getOrElse List.empty[String]
 		val coveragePackage = config("-p") getOrElse "apparat.coverage"
+		val instrumentedClassesRegex = config("-r")
 
 		if(!input.exists) {
 			error("Input "+input+" does not exist.")
 		}
 
-		new CoverageConfigurationImpl(input, output, lineDump, sourcePath, coveragePackage)
+		new CoverageConfigurationImpl(input, output, lineDump, sourcePath, coveragePackage,
+			instrumentedClassesRegex)
 	}
 }

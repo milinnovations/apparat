@@ -31,6 +31,7 @@ import java.io.{File => JFile}
 import apparat.abc.{AbcConstantPool, AbcQName, AbcNamespace, Abc}
 import compat.Platform
 import apparat.swf.{SwfTag, SwfTags, DoABC}
+import scala.util.matching.Regex
 
 object Coverage {
 	def main(args: Array[String]): Unit = ApparatApplication(new CoverageTool, args)
@@ -44,6 +45,7 @@ object Coverage {
 		var output: JFile = _
 		var lineDump: JFile = _
 		var sourcePath = List.empty[String]
+		var instrumentedClassesRegex: Option[Regex] = None
 		var coveragePackage: String = _
 		var coverageQName: AbcQName = _
 		var coverageScope: GetLex = _
@@ -56,6 +58,7 @@ object Coverage {
   -o [file]	Output file (optional)
   -d [file]	File containing the line numbers of all the executable lines (optional)
   -p [str]	Name of the package containing the Coverage class (optional, defaults to apparat.coverage).
+  -r [regex]	Regular expression matching the names of the classes to be instrumented (optional).
   -s [dir]	Source path to instrument"""
 
 		override def configure(config: ApparatConfiguration): Unit = configure(CoverageConfigurationFactory fromConfiguration config)
@@ -66,6 +69,7 @@ object Coverage {
 			lineDump = config.lineDump
 			sourcePath = config.sourcePath
 			coveragePackage = config.coveragePackage
+			instrumentedClassesRegex = config.instrumentedClassesRegex map { new Regex(_) }
 		}
 
 		override def run() = {
@@ -98,51 +102,60 @@ object Coverage {
 
 		private def coverage: PartialFunction[SwfTag, Unit] = {
 			case doABC: DoABC => {
-				var abcModified = false
-				var previousLine = -1
-				val abc = Abc fromDoABC doABC
+				val matchOption = instrumentedClassesRegex match {
+					case Some(regex) => regex.findFirstIn(doABC.name)
+					case None => Some("")
+				}
+				matchOption match {
+					case Some(_) => {
+						var abcModified = false
+						var previousLine = -1
+						val abc = Abc fromDoABC doABC
 
-				abc.loadBytecode()
+						abc.loadBytecode()
 
-				for {
-					method <- abc.methods
-					body <- method.body
-					bytecode <- body.bytecode
-				} {
-					bytecode.ops find (_.opCode == Op.debugfile) match {
-						case Some(op) => {
-							val debugFile = op.asInstanceOf[DebugFile]
-							val file = debugFile.file
-							if(sourcePath.isEmpty || (sourcePath exists (file.name startsWith _))) {
-								abcModified = true
+						for {
+							method <- abc.methods
+							body <- method.body
+							bytecode <- body.bytecode
+						} {
+							bytecode.ops find (_.opCode == Op.debugfile) match {
+								case Some(op) => {
+									val debugFile = op.asInstanceOf[DebugFile]
+									val file = debugFile.file
+									if(sourcePath.isEmpty || (sourcePath exists (file.name startsWith _))) {
+										abcModified = true
 
-								bytecode.replaceFrom(4, debugLine) {
-									x =>
-										observers foreach (_.instrument(file.name, method.name.name, x))
-										if (previousLine != x) {
-											previousLine = x
-											DebugLine(x) ::
-											coverageScope ::
-											PushString(file) ::
-											PushString(method.name) ::
-											pushLine(x) ::
-											coverageMethod :: Nil
-										} else {
-											DebugLine(x) :: Nil
+										bytecode.replaceFrom(4, debugLine) {
+											x =>
+												observers foreach (_.instrument(file.name, method.name.name, x))
+												if (previousLine != x) {
+													previousLine = x
+													DebugLine(x) ::
+													coverageScope ::
+													PushString(file) ::
+													PushString(method.name) ::
+													pushLine(x) ::
+													coverageMethod :: Nil
+												} else {
+													DebugLine(x) :: Nil
+												}
 										}
-								}
 
-								body.maxStack += 4
+										body.maxStack += 4
+									}
+								}
+								case None =>
 							}
 						}
-						case None =>
-					}
-				}
 
-				if(abcModified) {
-					abc.cpool = (abc.cpool add coverageQName) add coverageOnSample
-					abc.saveBytecode()
-					abc write doABC
+						if(abcModified) {
+							abc.cpool = (abc.cpool add coverageQName) add coverageOnSample
+							abc.saveBytecode()
+							abc write doABC
+						}
+					}
+					case _ => {}
 				}
 			}
 		}

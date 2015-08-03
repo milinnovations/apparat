@@ -30,5 +30,6 @@ protected[coverage2] class CoverageConfigurationImpl(
 	val output: JFile,
 	var lineDump: JFile,
 	val sourcePath: List[String],
-	val coveragePackage: String
+	val coveragePackage: String,
+	val instrumentedClassesRegex: Option[String]
 ) extends CoverageConfiguration

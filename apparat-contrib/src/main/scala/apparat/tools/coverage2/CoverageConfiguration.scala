@@ -54,4 +54,11 @@ trait CoverageConfiguration {
 	 * The name of the package that contains the Coverage class.
 	 */
 	def coveragePackage: String
+
+	/**
+	 * A string containing a regular expression that matches the names of the
+	 * classes to be instrumented, specified in slashed format (e.g.,
+	 * foo/bar/Baz)
+	 */
+	def instrumentedClassesRegex: Option[String]
 }
