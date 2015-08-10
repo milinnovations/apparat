@@ -129,7 +129,7 @@ object Coverage {
 										bytecode.replaceFrom(4, debugLine) {
 											x =>
 												observers foreach (_.instrument(file.name, method.name.name, x))
-												if (previousLine != x) {
+												if (previousLine < 0 || previousLine != x) {
 													previousLine = x
 													DebugLine(x) ::
 													coverageScope ::
