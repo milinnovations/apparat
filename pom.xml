@@ -273,15 +273,15 @@
     <module>apparat-contrib</module>
     <module>apparat-core</module>
     <module>apparat-ersatz</module>
-    <module>apparat-jitb</module>
+    <!-- <module>apparat-jitb</module> -->
     <module>apparat-log</module>
     <module>apparat-lzma-decoder</module>
     <module>apparat-lzma-encoder</module>
     <module>apparat-matryoshkas</module>
     <module>apparat-maven-plugin</module>
-    <module>apparat-playerglobal</module>
+    <!-- <module>apparat-playerglobal</module> -->
     <module>apparat-taas</module>
-    <module>apparat-test-harness</module>
+    <!-- <module>apparat-test-harness</module> -->
   </modules>
 
   <repositories>
@@ -305,11 +305,6 @@
         <enabled>false</enabled>
       </snapshots>
     </repository>
-    <!--<repository>
-      <id>lwjgl</id>
-      <name>lwjgl</name>
-      <url>http://adterrasperaspera.com/lwjgl</url>
-    </repository>-->
   </repositories>
 
   <pluginRepositories>

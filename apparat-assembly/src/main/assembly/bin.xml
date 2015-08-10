@@ -39,6 +39,9 @@
       <includes>
         <include>*.bat</include>
       </includes>
+      <excludes>
+        <exclude>jitb.bat</exclude>
+      </excludes>
       <filtered>true</filtered>
       <outputDirectory>/</outputDirectory>
     </fileSet>
@@ -48,6 +51,7 @@
         <include>*</include>
       </includes>
       <excludes>
+        <exclude>jitb</exclude>
         <exclude>*.bat</exclude>
       </excludes>
       <filtered>true</filtered>
