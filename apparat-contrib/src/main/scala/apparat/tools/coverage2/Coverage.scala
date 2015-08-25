@@ -109,16 +109,18 @@ object Coverage {
 				matchOption match {
 					case Some(_) => {
 						var abcModified = false
-						var previousLine = -1
 						val abc = Abc fromDoABC doABC
-
 						abc.loadBytecode()
 
+						val initMethods = abc.scripts map (_.init)
+						val nonInitMethods = abc.methods filterNot (initMethods contains _)
+
 						for {
-							method <- abc.methods
+							method <- nonInitMethods
 							body <- method.body
 							bytecode <- body.bytecode
 						} {
+							var previousLine = -1
 							bytecode.ops find (_.opCode == Op.debugfile) match {
 								case Some(op) => {
 									val debugFile = op.asInstanceOf[DebugFile]
